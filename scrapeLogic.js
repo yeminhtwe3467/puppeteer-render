@@ -17,7 +17,7 @@ const scrapeLogic = async(res) => {
     try {
         const page = await browser.newPage();
         // Navigate the page to a URL.
-        await page.goto('https://developer.chrome.com/');
+        await page.goto('https://developer.chrome.com/', { waitUntil: 'networkidle2' });
 
         // Set screen size.
         await page.setViewport({width: 1080, height: 1024});
@@ -36,10 +36,10 @@ const scrapeLogic = async(res) => {
 
         // Print the full title.
         console.log('The title of this blog post is "%s".', fullTitle);
-        res.send(fullTitle)
+        res.send(fullTitle || "Title not found");
     } catch (e) {
         console.error(e);
-        res.send(`Something went wrong while running: ${error}`)
+        res.status(500).send(`Something went wrong while running: ${e.message}`);
     } finally {
         await browser.close();
     }
