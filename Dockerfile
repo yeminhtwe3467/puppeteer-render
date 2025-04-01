@@ -1,6 +1,6 @@
 FROM ghcr.io/puppeteer/puppeteer:24.4.0
 
-ENV ENV PUPPETEER_EXECUTABLE_PATH=/usr/lib/chromium/chrome
+RUN find / -name "chromium" -o -name "chrome" 2>/dev/null || echo "Chromium not found"
 
 WORKDIR /usr/src/app
 
